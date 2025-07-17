@@ -4,6 +4,7 @@ import cfonts from "cfonts";
 import { execa } from "execa";
 import { installE2B } from "./providers/e2b.js";
 import { installDaytona } from "./providers/daytona.js";
+import { installNorthflank } from "./providers/northflank.js";
 import { authenticate, checkAuth, isCliInstalled } from "../utils/auth.js";
 import { AGENT_TEMPLATES, SANDBOX_PROVIDERS } from "../../constants/enums.js";
 
@@ -35,6 +36,11 @@ const installers: Record<SANDBOX_PROVIDERS, ProviderInstaller> = {
       memory: Math.floor(config.memory / 1024),
     }),
     install: installDaytona,
+  },
+  [SANDBOX_PROVIDERS.NORTHFLANK]: {
+    isInstalled: async () => await isCliInstalled("northflank"),
+    configTransform: (config) => config,
+    install: installNorthflank,
   },
 };
 

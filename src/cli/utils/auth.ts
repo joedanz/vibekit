@@ -54,6 +54,30 @@ const authConfigs: Record<SANDBOX_PROVIDERS, ProviderAuthConfig> = {
     },
     loginCommand: ['login'],
   },
+  [SANDBOX_PROVIDERS.NORTHFLANK]: {
+    cliName: 'northflank',
+    installInstructions: 'npm install -g @northflank/cli',
+    checkAuthCommand: ['context', 'ls'],
+    parseAuthOutput: (stdout, stderr) => {
+      // Check if user is authenticated by looking for context entries
+      const isAuthError = stderr && (
+        stderr.toLowerCase().includes('authentication') ||
+        stderr.toLowerCase().includes('login') ||
+        stderr.toLowerCase().includes('unauthorized') ||
+        stderr.toLowerCase().includes('not logged in')
+      );
+      const hasContext = stdout && stdout.trim().length > 0 && !stdout.includes('No contexts found');
+      let username = 'Northflank User';
+      // Try to extract username or email from context output
+      if (stdout) {
+        const emailMatch = stdout.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+        if (emailMatch) username = emailMatch[0];
+      }
+      return { isAuthenticated: Boolean(!isAuthError && hasContext), username };
+    },
+    loginCommand: ['login'],
+    needsBrowserOpen: true,
+  },
 };
 
 export async function isCliInstalled(command: string): Promise<boolean> {
@@ -191,6 +215,8 @@ async function installCli(provider: SANDBOX_PROVIDERS): Promise<boolean> {
   try {
     if (provider === SANDBOX_PROVIDERS.E2B) {
       await execa('npm', ['install', '-g', '@e2b/cli']);
+    } else if (provider === SANDBOX_PROVIDERS.NORTHFLANK) {
+      await execa('npm', ['install', '-g', '@northflank/cli']);
     } else {
       if (process.platform === 'win32') {
         await execa('powershell', ['-Command', 'irm https://get.daytona.io/windows | iex']);

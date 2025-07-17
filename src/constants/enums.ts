@@ -1,7 +1,8 @@
 // Provider enums
 export enum SANDBOX_PROVIDERS {
   E2B = 'E2B',
-  DAYTONA = 'Daytona'
+  DAYTONA = 'Daytona',
+  NORTHFLANK = 'Northflank'
 }
 
 // Agent configurations with display names and descriptions

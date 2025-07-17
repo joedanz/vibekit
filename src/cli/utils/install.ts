@@ -18,6 +18,7 @@ export async function installTemplates(options: {
   dockerfilePathPrefix: string;
   config: InstallConfig;
   selectedTemplates?: string[];
+  customBuildLogic?: (template: { name: string; display: string; message: string }, config: InstallConfig, tempDockerfile: string) => Promise<boolean>;
 }): Promise<boolean> {
   console.log(chalk.blue(`\n🔧 Setting up ${options.provider}...`));
   let spinner: ReturnType<typeof ora> | null = null;
@@ -74,7 +75,11 @@ export async function installTemplates(options: {
         }
         
         // Run setup with provided configuration
-        await execa(options.cliCommand, options.buildArgs(template.name, options.config, tempDockerfile));
+        if (options.customBuildLogic) {
+          await options.customBuildLogic(template, options.config, tempDockerfile);
+        } else {
+          await execa(options.cliCommand, options.buildArgs(template.name, options.config, tempDockerfile));
+        }
 
         spinner.succeed(chalk.green(`✅ ${template.display} template installed successfully`));
         results.successful++;
