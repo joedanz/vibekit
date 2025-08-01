@@ -17,7 +17,10 @@
         "build:packages": "npm run build --workspace=packages/e2b && npm run build --workspace=packages/daytona && npm run build --workspace=packages/northflank && npm run build --workspace=packages/cloudflare && npm run build --workspace=packages/dagger && npm run build --workspace=packages/auth && npm run build --workspace=packages/vibekit && npm run build --workspace=packages/cli",
         "dev": "npm run dev --workspace=packages/vibekit",
         "type-check": "npm run build:types --workspace=packages/dagger && npm run type-check --workspaces",
-        "test": "vitest"
+        "test": "vitest",
+        "link-cli": "npm link",
+        "unlink-cli": "npm unlink -g vibekit-workspace",
+        "vibekit": "node packages/cli/dist/index.js"
     },
     "devDependencies": {
         "@types/node": "^22.15.18",
