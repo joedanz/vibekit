@@ -1,7 +1,7 @@
 /**
- * Infrastructure Module
+ * Services Module
  * 
- * Provides provider-agnostic infrastructure services for VibeKit including
+ * Provides provider-agnostic services for VibeKit including
  * Docker client operations and configuration management.
  */
 

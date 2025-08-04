@@ -5,8 +5,8 @@
  * user account management, and registry setup.
  */
 
-import { DockerClient, type DockerLoginInfo } from '../infra/docker-client';
-import { ConfigManager, type AgentType, type VibeKitConfig } from '../infra/config-manager';
+import { DockerClient, type DockerLoginInfo } from '../services/docker-client';
+import { ConfigManager, type AgentType, type VibeKitConfig } from '../services/config-manager';
 import { RegistryProvider, type RegistryResult, type ImageUploadResult } from './registry-manager';
 
 export interface DockerHubConfig {

@@ -6,8 +6,8 @@
  */
 
 import { existsSync } from "fs";
-import { DockerClient } from '../infra/docker-client';
-import { ConfigManager, type AgentType } from '../infra/config-manager';
+import { DockerClient } from '../services/docker-client';
+import { ConfigManager, type AgentType } from '../services/config-manager';
 import { RegistryManager } from './registry-manager';
 
 export interface ImageResolverConfig {
