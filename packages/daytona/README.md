@@ -27,7 +27,7 @@ const vibeKit = new VibeKit()
     type: "claude",
     provider: "anthropic",
     apiKey: process.env.CLAUDE_API_KEY!,
-    model: "claude-3-5-sonnet-20241022",
+    model: "claude-sonnet-4-20250514",
   })
   .withSandbox(daytonaProvider) // Pass the provider instance
   .withWorkingDirectory("/var/custom-workdir") // Optional: specify working directory
